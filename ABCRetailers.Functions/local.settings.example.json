@@ -1,0 +1,23 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    
+    "STORAGE_CONNECTION": "YOUR_AZURE_STORAGE_CONNECTION_STRING_HERE",
+    
+    "TABLE_CUSTOMER": "Customers",
+    "TABLE_PRODUCT": "Products",
+    "TABLE_ORDER": "Orders",
+    
+    "BLOB_PRODUCT_IMAGES": "product-images",
+    "BLOB_PAYMENT_PROOFS": "payment-proofs",
+    
+    "QUEUE_ORDER_NOTIFICATIONS": "order-notifications",
+    "QUEUE_STOCK_UPDATES": "stock-updates",
+    
+    "FILESHARE_CONTRACTS": "contracts",
+    "FILESHARE_DIR_PAYMENTS": "payments"
+  }
+}
+

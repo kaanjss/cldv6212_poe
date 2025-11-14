@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ABCretailers</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Top Navigation -->
+    <nav class="floating-nav">
+        <div class="nav-container">
+            <a class="logo-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <div class="logo-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <span class="logo-text">ABC<span class="text-gradient">retailers</span></span>
+            </a>
+
+            <div class="nav-links">
+                <a class="nav-item" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <a class="nav-item" asp-area="" asp-controller="Product" asp-action="Index">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Shop</span>
+                        </a>
+                        <a class="nav-item" asp-area="" asp-controller="Cart" asp-action="Index">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Cart</span>
+                        </a>
+                        <a class="nav-item" asp-area="" asp-controller="Cart" asp-action="MyOrders">
+                            <i class="fas fa-box"></i>
+                            <span>Orders</span>
+                        </a>
+                    }
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="nav-item" asp-area="" asp-controller="Customer" asp-action="Index">
+                            <i class="fas fa-users"></i>
+                            <span>Customers</span>
+                        </a>
+                        <a class="nav-item" asp-area="" asp-controller="Product" asp-action="Index">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                        <a class="nav-item" asp-area="" asp-controller="Order" asp-action="Index">
+                            <i class="fas fa-list"></i>
+                            <span>All Orders</span>
+                        </a>
+                        <a class="nav-item" asp-area="" asp-controller="Upload" asp-action="Index">
+                            <i class="fas fa-upload"></i>
+                            <span>Files</span>
+                        </a>
+                    }
+                }
+            </div>
+
+            <div class="nav-actions">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="user-menu-dropdown">
+                        <button class="user-avatar-btn" onclick="toggleUserMenu()">
+                            <div class="avatar-circle">
+                                @{
+                                    var firstName = User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value;
+                                    var initials = !string.IsNullOrEmpty(firstName) ? firstName.Substring(0, 1).ToUpper() : "U";
+                                }
+                                @initials
+                            </div>
+                            <span class="user-name">@User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value</span>
+                            <i class="fas fa-chevron-down ms-1"></i>
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-user-info">
+                                    <strong>@User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value @User.FindFirst(System.Security.Claims.ClaimTypes.Surname)?.Value</strong>
+                                    <small>@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</small>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                <i class="fas fa-shield-alt me-2"></i>Privacy
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <form asp-controller="Auth" asp-action="Logout" method="post" class="dropdown-form">
+                                <button type="submit" class="dropdown-item dropdown-logout">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <a asp-area="" asp-controller="Auth" asp-action="Login" class="btn btn-ghost">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                    <a asp-area="" asp-controller="Auth" asp-action="Register" class="btn btn-primary-gradient">
+                        <i class="fas fa-user-plus me-2"></i>Register
+                    </a>
+                }
+            </div>
+        </div>
+    </nav>
+
+    <!-- Demo Credentials Floating Card (Only when not logged in) -->
+    @if (User.Identity?.IsAuthenticated != true)
+    {
+        <div class="floating-demo-card">
+            <div class="demo-card-header">
+                <i class="fas fa-key"></i>
+                <span>Demo Accounts</span>
+            </div>
+            <div class="demo-account">
+                <div class="demo-badge admin">Admin</div>
+                <div class="demo-creds">
+                    <small>admin / admin123</small>
+                </div>
+            </div>
+            <div class="demo-account">
+                <div class="demo-badge customer">Customer</div>
+                <div class="demo-creds">
+                    <small>johndoe / john789</small>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="main-content">
+        <main role="main" class="content-area fade-in">
+            <!-- Alert Messages -->
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                    <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @RenderBody()
+        </main>
+
+        <footer class="modern-footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <i class="fas fa-store"></i>
+                        <span>ABCretailers</span>
+                    </div>
+                    <p class="footer-tagline">Your one-stop shop for quality products</p>
+                </div>
+                <div class="footer-right">
+                    <span>&copy; 2025 ABCretailers</span>
+                    <span class="footer-dot">•</span>
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <script>
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.user-menu-dropdown')) {
+                const dropdown = document.getElementById('userDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        });
+    </script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,185 @@
+@model ABCRetailers.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ABCretailers</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #0c4a6e 0%, #0e7490 50%, #0f766e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .register-container {
+            max-width: 640px;
+            width: 100%;
+            padding: 20px;
+        }
+        .register-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .register-header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .register-header h2 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .register-header p {
+            margin-top: 8px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        .register-body {
+            padding: 40px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .form-control, .form-select, textarea {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus, textarea:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+        }
+        .btn-register {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
+            border: none;
+            color: white;
+            padding: 14px;
+            font-weight: 700;
+            width: 100%;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(14, 165, 233, 0.5);
+        }
+        a {
+            color: #0ea5e9;
+            font-weight: 600;
+        }
+        a:hover {
+            color: #0284c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <i class="fas fa-user-plus fa-3x mb-3"></i>
+                <h2>Create Account</h2>
+                <p class="mb-0">Join ABCretailers today!</p>
+            </div>
+            <div class="register-body">
+                <form asp-action="Register" asp-controller="Auth" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label">
+                                <i class="fas fa-user me-2"></i>First Name
+                            </label>
+                            <input asp-for="FirstName" class="form-control" placeholder="John" />
+                            <span asp-validation-for="FirstName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label">
+                                <i class="fas fa-user me-2"></i>Last Name
+                            </label>
+                            <input asp-for="LastName" class="form-control" placeholder="Doe" />
+                            <span asp-validation-for="LastName" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label">
+                            <i class="fas fa-at me-2"></i>Username
+                        </label>
+                        <input asp-for="Username" class="form-control" placeholder="johndoe" />
+                        <span asp-validation-for="Username" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">
+                            <i class="fas fa-envelope me-2"></i>Email
+                        </label>
+                        <input asp-for="Email" class="form-control" placeholder="john@example.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Password" class="form-label">
+                                <i class="fas fa-lock me-2"></i>Password
+                            </label>
+                            <input asp-for="Password" class="form-control" placeholder="Minimum 6 characters" />
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label">
+                                <i class="fas fa-lock me-2"></i>Confirm Password
+                            </label>
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Re-enter password" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ShippingAddress" class="form-label">
+                            <i class="fas fa-map-marker-alt me-2"></i>Shipping Address (Optional)
+                        </label>
+                        <textarea asp-for="ShippingAddress" class="form-control" rows="2" placeholder="123 Main St, City, Postal Code"></textarea>
+                        <span asp-validation-for="ShippingAddress" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-register">
+                        <i class="fas fa-user-plus me-2"></i>Create Account
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="mb-0">Already have an account? <a asp-action="Login" asp-controller="Auth" class="text-decoration-none fw-bold">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
+

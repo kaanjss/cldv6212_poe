@@ -1,0 +1,109 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Publish/deployment folders
+*-WebApp/
+publish*/
+
+# Visual Studio / Rider cache/options
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Publish folders
+publish*/
+**/publish/
+
+# ZIP deployment files
+*.zip
+
+# Helper/Documentation files (AI-generated guides)
+AZURE_FUNCTIONS_SETUP.md
+POE_PART2_IMPLEMENTATION_SUMMARY.md
+QUICK_START.md
+DEPLOYMENT_FIX.md
+DEPLOYMENT_CONFLICT_FIX.md
+SELECT_CORRECT_PROJECT.md
+FIX_409_CONFLICT.md
+
+# Node modules
+node_modules/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Azure Functions
+local.settings.json
+__blobstorage__
+__queuestorage__
+__azurite_db*__.json
+.python_packages/
+
+# Configuration files with secrets (keep example files only)
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+

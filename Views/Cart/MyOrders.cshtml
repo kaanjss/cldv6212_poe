@@ -1,0 +1,91 @@
+@model List<dynamic>
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-box"></i> My Orders</h2>
+        <div>
+            <a asp-action="Index" class="btn btn-outline-primary">
+                <i class="fas fa-shopping-cart me-2"></i>Back to Cart
+            </a>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-primary">
+                <i class="fas fa-shopping-bag me-2"></i>Browse Products
+            </a>
+        </div>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center py-5">
+            <i class="fas fa-box-open fa-3x mb-3"></i>
+            <h4>No orders yet</h4>
+            <p>Start shopping and your orders will appear here!</p>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-primary">
+                <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Order Date</th>
+                            <th>Shipping Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td><strong>#@order.OrderId</strong></td>
+                                <td>@order.ProductName</td>
+                                <td>@order.Quantity</td>
+                                <td>$@order.UnitPrice.ToString("N2")</td>
+                                <td><strong>$@order.TotalPrice.ToString("N2")</strong></td>
+                                <td>
+                                    @{
+                                        string badgeClass = order.Status switch
+                                        {
+                                            "Submitted" => "bg-info",
+                                            "Processing" => "bg-warning text-dark",
+                                            "Completed" => "bg-success",
+                                            "Cancelled" => "bg-danger",
+                                            _ => "bg-secondary"
+                                        };
+                                    }
+                                    <span class="badge @badgeClass">@order.Status</span>
+                                </td>
+                                <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td><small>@order.ShippingAddress</small></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="alert alert-light">
+                <h5><i class="fas fa-info-circle me-2"></i>Order Status Guide:</h5>
+                <ul class="mb-0">
+                    <li><span class="badge bg-info">Submitted</span> - Your order has been received</li>
+                    <li><span class="badge bg-warning text-dark">Processing</span> - Your order is being prepared</li>
+                    <li><span class="badge bg-success">Completed</span> - Your order has been delivered</li>
+                    <li><span class="badge bg-danger">Cancelled</span> - Your order has been cancelled</li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>
+

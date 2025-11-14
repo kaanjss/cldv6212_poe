@@ -1,0 +1,190 @@
+@model ABCRetailers.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ABCretailers</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #0c4a6e 0%, #0e7490 50%, #0f766e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .login-container {
+            max-width: 480px;
+            width: 100%;
+            padding: 20px;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .login-header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .login-header h2 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .login-header p {
+            margin-top: 8px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        .login-body {
+            padding: 40px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .form-control {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
+            border: none;
+            color: white;
+            padding: 14px;
+            font-weight: 700;
+            width: 100%;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(14, 165, 233, 0.5);
+        }
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            position: relative;
+        }
+        .divider::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+        }
+        .divider span {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 0 20px;
+            position: relative;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        a {
+            color: #0ea5e9;
+            font-weight: 600;
+        }
+        a:hover {
+            color: #0284c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="fas fa-store fa-3x mb-3"></i>
+                <h2>ABCretailers</h2>
+                <p class="mb-0">Welcome Back!</p>
+            </div>
+            <div class="login-body">
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <form asp-action="Login" asp-controller="Auth" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+                    <div class="mb-3">
+                        <label asp-for="UsernameOrEmail" class="form-label">
+                            <i class="fas fa-user me-2"></i>Username or Email
+                        </label>
+                        <input asp-for="UsernameOrEmail" class="form-control" placeholder="Enter your username or email" autofocus />
+                        <span asp-validation-for="UsernameOrEmail" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Password
+                        </label>
+                        <input asp-for="Password" class="form-control" placeholder="Enter your password" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label">
+                            Remember me for 30 days
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <div class="text-center">
+                    <p class="mb-0">Don't have an account? <a asp-action="Register" asp-controller="Auth" class="text-decoration-none fw-bold">Register here</a></p>
+                </div>
+
+                <div class="mt-4 p-3 bg-light rounded">
+                    <small class="text-muted">
+                        <strong>Demo Accounts:</strong><br />
+                        Admin: <code>admin</code> / <code>admin123</code><br />
+                        Customer: <code>johndoe</code> / <code>john789</code>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
+

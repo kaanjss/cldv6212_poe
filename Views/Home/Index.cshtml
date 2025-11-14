@@ -1,0 +1,335 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var customerCount = ViewBag.CustomerCount ?? 0;
+    var productCount = ViewBag.ProductCount ?? 0;
+    var orderCount = ViewBag.OrderCount ?? 0;
+    var featuredProducts = ViewBag.FeaturedProducts as List<ABCRetailers.Models.Product> ?? new List<ABCRetailers.Models.Product>();
+}
+
+<div class="container-fluid mt-4">
+    @if (User.IsInRole("Admin"))
+    {
+        <!-- ============================================= -->
+        <!-- ADMIN VIEW: Stats Summary & Action Buttons -->
+        <!-- ============================================= -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold">
+                <span class="text-primary">Welcome to</span> ABCretailers
+            </h1>
+            <p class="lead text-muted">Admin Dashboard - Manage your store</p>
+        </div>
+
+        <!-- === ADMIN VIEW: Stats Summary ==> -->
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                                <i class="fas fa-users fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">@customerCount</h3>
+                                <p class="text-muted mb-0">Customers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                                <i class="fas fa-box fa-2x text-success"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">@productCount</h3>
+                                <p class="text-muted mb-0">Products</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                                <i class="fas fa-shopping-cart fa-2x text-warning"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0">@orderCount</h3>
+                                <p class="text-muted mb-0">Orders</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- === ADMIN VIEW: Quick Action Cards ==> -->
+        <div class="row mb-5">
+            <div class="col-md-3 mb-3">
+                <a href="/Customer" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 h-100 hover-lift">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex p-4 mb-3">
+                                <i class="fas fa-users fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title text-dark">Customers</h5>
+                            <p class="card-text text-muted">Manage your customers</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <a href="/Product" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 h-100 hover-lift">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle bg-success bg-opacity-10 d-inline-flex p-4 mb-3">
+                                <i class="fas fa-box fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title text-dark">Products</h5>
+                            <p class="card-text text-muted">Manage your inventory</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <a href="/Order" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 h-100 hover-lift">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle bg-warning bg-opacity-10 d-inline-flex p-4 mb-3">
+                                <i class="fas fa-shopping-cart fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="card-title text-dark">Orders</h5>
+                            <p class="card-text text-muted">Track customer orders</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <a href="/File" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 h-100 hover-lift">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle bg-info bg-opacity-10 d-inline-flex p-4 mb-3">
+                                <i class="fas fa-cloud-upload-alt fa-3x text-info"></i>
+                            </div>
+                            <h5 class="card-title text-dark">Upload Files</h5>
+                            <p class="card-text text-muted">Manage payment proofs</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+    else if (User.IsInRole("Customer"))
+    {
+        <!-- ============================================= -->
+        <!-- CUSTOMER VIEW: Welcome Card & Quick Actions -->
+        <!-- ============================================= -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold">
+                <span class="text-primary">Welcome to</span> ABCretailers
+            </h1>
+            <p class="lead text-muted">Your one-stop shop for quality products</p>
+        </div>
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-user-circle fa-5x text-primary"></i>
+                        </div>
+                        <h2 class="mb-3">Hello, @User.Identity?.Name!</h2>
+                        <p class="lead text-muted mb-4">Ready to explore our products?</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="/Product" class="btn btn-primary btn-lg px-4">
+                                <i class="fas fa-shopping-bag me-2"></i>Browse Products
+                            </a>
+                            <a href="/Cart/MyOrders" class="btn btn-outline-primary btn-lg px-4">
+                                <i class="fas fa-box me-2"></i>My Orders
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <a href="/Product" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 h-100 hover-lift">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex p-4 mb-3">
+                                <i class="fas fa-shopping-bag fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title text-dark">Shop Now</h5>
+                            <p class="card-text text-muted">Browse our latest products</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <a href="/Cart/Index" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 h-100 hover-lift">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle bg-success bg-opacity-10 d-inline-flex p-4 mb-3">
+                                <i class="fas fa-shopping-cart fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title text-dark">My Cart</h5>
+                            <p class="card-text text-muted">View your shopping cart</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <a href="/Cart/MyOrders" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 h-100 hover-lift">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle bg-warning bg-opacity-10 d-inline-flex p-4 mb-3">
+                                <i class="fas fa-box fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="card-title text-dark">My Orders</h5>
+                            <p class="card-text text-muted">Track your orders</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- ============================================= -->
+        <!-- NOT LOGGED IN VIEW -->
+        <!-- ============================================= -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold">
+                <span class="text-primary">Welcome to</span> ABCretailers
+            </h1>
+            <p class="lead text-muted">Please log in to access your account</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5 text-center">
+                        <i class="fas fa-lock fa-5x text-primary mb-4"></i>
+                        <h3 class="mb-3">Authentication Required</h3>
+                        <p class="text-muted mb-4">Sign in to explore our products and manage your orders</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="/Auth/Login" class="btn btn-primary btn-lg px-4">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login
+                            </a>
+                            <a href="/Auth/Register" class="btn btn-outline-primary btn-lg px-4">
+                                <i class="fas fa-user-plus me-2"></i>Register
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <!-- ============================================= -->
+        <!-- Featured Products Section (both admin & customer) -->
+        <!-- ============================================= -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">
+                        <i class="fas fa-star text-warning me-2"></i>Featured Products
+                    </h2>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a href="/Product/Create" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Add Product
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (featuredProducts != null && featuredProducts.Any())
+        {
+            <div class="row">
+                @foreach (var product in featuredProducts)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm border-0 h-100 hover-lift">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" class="card-img-top" alt="@product.ProductName" style="height: 250px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@product.ProductName</h5>
+                                <p class="card-text text-muted">@product.Description</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="h5 mb-0 text-primary">R @product.Price.ToString("N2")</span>
+                                    <span class="badge bg-info">Stock: @product.StockAvailable</span>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                @if (User.IsInRole("Customer"))
+                                {
+                                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-grid">
+                                        <input type="hidden" name="productId" value="@product.ProductId" />
+                                        <input type="hidden" name="quantity" value="1" />
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                        </button>
+                                    </form>
+                                }
+                                else if (User.IsInRole("Admin"))
+                                {
+                                    <div class="btn-group w-100" role="group">
+                                        <a href="/Product/Edit/@product.RowKey" class="btn btn-outline-primary">
+                                            <i class="fas fa-edit me-1"></i>Edit
+                                        </a>
+                                        <a href="/Product/Details/@product.RowKey" class="btn btn-outline-info">
+                                            <i class="fas fa-info-circle me-1"></i>Details
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info text-center" role="alert">
+                <i class="fas fa-info-circle me-2"></i>No products available at the moment.
+            </div>
+        }
+    }
+</div>
+
+<style>
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+</style>
